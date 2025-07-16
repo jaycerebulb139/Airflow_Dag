@@ -68,8 +68,7 @@ def write_predictions(**kwargs):
         raise ValueError("Missing optimized values in XCom")
 
     predictions = {
-        "Specific_coal_cons": scc_opt,
-        "SCC_PRED": scc_opt,
+        "SCC_PRED": scc_model_pred,
         "FUEL_AIR_RATIO_PRED": x_opt[0],
         "WIND_BOX_DP_PRED": x_opt[1],
         "PA_FAN_TOT_PRED": x_opt[2],

@@ -35,7 +35,7 @@ class SCCOptimizer:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         warnings.filterwarnings("ignore", category=UserWarning)
         self.WINDOW_SEC = 120 # 120 second monitoring cycle
-        self.SAMPLE_SEC = 5   # Sample every 5 seconds
+        self.SAMPLE_SEC = 30   # Sample every 5 seconds
         self.ROUND_DIGITS = 3
         self.MAX_SCC = 0.202  # Primary constraint
         self.bound_strategy = bound_strategy
@@ -121,7 +121,7 @@ class SCCOptimizer:
         print(f"Target: SCC < {self.MAX_SCC}")
 
     def load_model(self):
-        logged_model_uri = "runs:/e8375cecbe1e429e9564c47bfa43c1b4/model"
+        logged_model_uri = "runs:/a51854e19ad44b089a221cc0af0486ae/model"
         return mlflow.xgboost.load_model(logged_model_uri)
 
     def safe_avg(self, values):
@@ -278,7 +278,7 @@ class SCCOptimizer:
         constraints = [
             {'type': 'ineq', 'fun': lambda x: self.MAX_SCC - self.scc_objective(x)},
             {'type': 'ineq', 'fun': lambda x: self.scc_objective(x) - 0.200},
-            {'type': 'ineq', 'fun': lambda x: x[0] - 4},
+            {'type': 'ineq', 'fun': lambda x: x[0] - 3},
             {'type': 'ineq', 'fun': lambda x: x[7] - 35},
             {'type': 'ineq', 'fun': lambda x: x[6] - 120},
             {'type': 'ineq', 'fun': lambda x: x[1] - 10},
@@ -352,7 +352,7 @@ class SCCOptimizer:
                 WIND_BOX_AIR_FL_TOT,
                 stored_list[13],  # PRESS_PIPNG_MN_STM_FL_TRNSMTR_01
                 ECO_FLUE_GAS_TEMP_AVG,
-                stored_list[31],  # SUPR_HTR_MN_STM_HDR_TEMP_02
+                stored_list[32],  # SUPR_HTR_MN_STM_HDR_TEMP_02
                 stored_list[20],  # COAL_FDR_TOT_FLW
                 ESP_DUCT_INL_FLUE_GAS_TEMP_AVG,
                 FD_WTR_REG_STN_FL_TOT,
@@ -408,7 +408,7 @@ class SCCOptimizer:
         
             if steam_flow < 120:
                 print(f" Skipping optimization: Steam flow ({steam_flow:.1f}) < 120 t/h")
-                # return
+                return
             
             current_scc = round(current_data[7] / current_data[4], self.ROUND_DIGITS)
             

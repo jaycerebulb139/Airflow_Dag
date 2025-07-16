@@ -34,7 +34,7 @@ class SCCOptimizer:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         warnings.filterwarnings("ignore", category=UserWarning)
         self.WINDOW_SEC = 120 # 120 second monitoring cycle
-        self.SAMPLE_SEC = 5   # Sample every 5 seconds
+        self.SAMPLE_SEC = 30   # Sample every 5 seconds
         self.ROUND_DIGITS = 3
         # self.MAX_SCC = 0.202  # Primary constraint
         self.bound_strategy = bound_strategy
